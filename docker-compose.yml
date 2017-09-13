@@ -1,0 +1,32 @@
+portalapp:
+   volumes:
+    - ./portal-webapps:/usr/local/tomcat/webapps
+   expose:
+    - "8009"
+   image: tomcat:latest
+   container_name: "portal"
+searchapp:
+   volumes:
+    - ./search-webapps:/usr/local/tomcat/webapps
+   expose:
+    - "8009"
+   image: tomcat:latest
+   container_name: "search"
+businessapp:
+   volumes:
+    - ./businessapp-webapps:/usr/local/tomcat/webapps
+   expose:
+    - "8009"
+   image: tomcat:latest
+   container_name: "business"
+http:
+   volumes:
+    - ./jk_mod/jk.conf:/etc/apache2/mods-available/jk.conf
+    - ./logs:/var/log/apache2
+    - ./jk_mod/workers.properties:/etc/libapache2-mod-jk/workers.properties
+    - ./000-default.conf:/etc/apache2/sites-available/000-default.conf
+   ports:
+     - "80:80"
+   image: httpd:2.4
+   container_name: "http-proxy"
+
